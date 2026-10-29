@@ -3,7 +3,7 @@ import type { Gift } from '@/data/wishlist'
 
 export function GiftIntent({gift, compact = false}: {gift: Gift; compact?: boolean}) {
   const defaults = {
-    exact: {title:'Cet article précis',description:'Je souhaite le modèle indiqué dans le lien d’achat.',icon:CircleCheck},
+    exact: {title:'Cet article précis',description:gift.links.length?'Je souhaite le modèle indiqué dans le lien d’achat.':'Je souhaite ce modèle précis.',icon:CircleCheck},
     choice: {title:'Au choix',description:'Plusieurs options me conviennent : à toi de choisir.',icon:Shuffle},
     inspiration: {title:'Une idée dans cet esprit',description:'La photo sert d’exemple ; un modèle similaire me convient.',icon:GiftIcon},
     contribution: {title:'Une participation',description:'Un coup de pouce, du montant de ton choix.',icon:Wallet},

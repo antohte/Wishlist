@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Luggage } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -11,10 +11,10 @@ function GiftDetails({ gift }: { gift: Gift }) {
   const [photo, setPhoto] = useState(0)
   return <div className="gift-details">
     <div className={`detail-gallery detail-${gift.id}`}>
-      {gift.images.length ? <img src={gift.images[photo].src} alt={gift.images[photo].alt}/> : <Luggage size={100} strokeWidth={1}/>}
+      {gift.images.length ? <img src={gift.images[photo].src} alt={gift.images[photo].alt}/> : <ImageIcon size={100} strokeWidth={1}/>}
       {gift.images.length > 1 && <div className="gallery-controls">
         <Button variant="outline" size="icon" aria-label="Photo précédente" onClick={() => setPhoto((photo - 1 + gift.images.length) % gift.images.length)}><ChevronLeft/></Button>
-        <span aria-live="polite">{gift.id==='vetements' && <strong>{['La veste On','Le sweat Drôle de Monsieur','La veste Alo'][photo]}</strong>}{photo + 1} / {gift.images.length}</span>
+        <span aria-live="polite"><strong>{gift.images[photo].alt.replace(', modèle souhaité','')}</strong>{photo + 1} / {gift.images.length}</span>
         <Button variant="outline" size="icon" aria-label="Photo suivante" onClick={() => setPhoto((photo + 1) % gift.images.length)}><ChevronRight/></Button>
       </div>}
     </div>

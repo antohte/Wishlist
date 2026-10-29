@@ -11,18 +11,21 @@ import { GiftDialog } from '@/components/gift-dialog'
 import { ShareDialog } from '@/components/share-dialog'
 import { Overview } from '@/components/overview'
 import { GiftFilters } from '@/components/gift-filters'
-import { categories, gifts, type Gift } from '@/data/wishlist'
+import { categories as initialCategories, gifts as initialGifts, type Gift } from '@/data/wishlist'
 import { matchesBudget, type BudgetFilter } from '@/lib/prices'
 
-const fromHash = () => gifts.find(gift => `#${gift.id}` === window.location.hash) ?? null
+const fromHash = (gifts:Gift[]) => gifts.find(gift => `#${gift.id}` === window.location.hash) ?? null
 
 export default function App() {
+  const [gifts,setGifts] = useState(initialGifts)
+  const [categories,setCategories] = useState(initialCategories)
   const [category,setCategory] = useState('Tout')
   const [budget,setBudget] = useState<BudgetFilter>('all')
-  const [selected,setSelected] = useState<Gift|null>(fromHash)
+  const [selected,setSelected] = useState<Gift|null>(()=>fromHash(initialGifts))
   const lastFocused = useRef<HTMLElement|null>(null)
-  useEffect(()=>{ const sync=()=>setSelected(fromHash()); window.addEventListener('hashchange',sync); window.addEventListener('popstate',sync); return ()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync)} },[])
-  const visible = useMemo(()=>gifts.filter(gift=>(category==='Tout'||gift.category===category)&&matchesBudget(gift,budget)),[category,budget])
+  useEffect(()=>{ const sync=()=>setSelected(fromHash(gifts)); window.addEventListener('hashchange',sync); window.addEventListener('popstate',sync); return ()=>{window.removeEventListener('hashchange',sync);window.removeEventListener('popstate',sync)} },[gifts])
+  useEffect(()=>{const controller=new AbortController();void fetch('/api/manage?action=catalog',{signal:controller.signal}).then(response=>{if(!response.ok)throw new Error('Catalogue indisponible');return response.json()}).then(data=>{setGifts(data.gifts);setCategories(['Tout',...data.categories]);setSelected(fromHash(data.gifts))}).catch(()=>{});return()=>controller.abort()},[])
+  const visible = useMemo(()=>gifts.filter(gift=>(category==='Tout'||gift.category===category)&&matchesBudget(gift,budget)),[category,budget,gifts])
   function openGift(gift:Gift) {
     lastFocused.current = document.activeElement as HTMLElement
     setSelected(gift)

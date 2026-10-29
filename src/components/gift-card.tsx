@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight, Images, Luggage } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Images, Image as ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { type Gift } from '@/data/wishlist'
@@ -12,7 +12,7 @@ export function GiftCard({ gift, featured, onOpen }: {gift: Gift; featured?: boo
   return <Card className={cn('gift-card', featured && 'gift-card-featured', `gift-${gift.id}`)} id={gift.id}>
     <div className="gift-photo-region">
     <button className="gift-photo" onClick={() => onOpen(gift)} aria-label={`Découvrir ${gift.name}`}>
-      {gift.images.length ? <img src={gift.images[photo].src} alt={gift.images[photo].alt} loading={featured || gift.id === 'casque' ? 'eager' : 'lazy'} decoding="async" /> : <div className="no-photo"><Luggage strokeWidth={1} /><span>Le prochain départ<br />reste à imaginer.</span><small>Modèle à choisir ensemble</small></div>}
+      {gift.images.length ? <img src={gift.images[photo].src} alt={gift.images[photo].alt} loading={featured || gift.id === 'casque' ? 'eager' : 'lazy'} decoding="async" /> : <div className="no-photo"><ImageIcon strokeWidth={1} /><span>Photo à venir</span></div>}
       {gift.images.length > 1 && <span className="photo-count" aria-live="polite"><Images size={14}/>Modèle {photo + 1} sur {gift.images.length}</span>}
     </button>
     {gift.images.length > 1 && <>

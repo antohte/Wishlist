@@ -207,3 +207,6 @@ h1,h2,h3{font-family:"URW Gothic",sans-serif;font-weight:600}
 .card-photo-previous{left:12px}
 .card-photo-next{right:12px}
 .card-photo-arrow>svg{width:22px;height:22px}
+
+.gallery-controls>span{max-width:220px}
+.gallery-controls strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
