@@ -1,0 +1,7 @@
+name: wishlist-antonin
+services:
+  wishlist:
+    build: .
+    ports:
+      - "127.0.0.1:8088:80"
+    restart: unless-stopped
